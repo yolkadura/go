@@ -35,15 +35,9 @@ for i := 0; i < len(bs); i++ { //магия по которой пока дли�
 	//print(bw[i % len(bw)], " ")
 
 	 ss[i] = bw[i % len(bw)]
+	 bs[i] = bs[i] - ss[i]
 
 	}
-
-for q := 0; q < len(bs); q++ {
-
-	bs[q] = bs[q] - ss[q]
-}
-
-
 
 	err2 := ioutil.WriteFile("test.txt.dec", bs, 0644)
 	if err2 != nil {
