@@ -21,10 +21,11 @@ func main() {
 	} 
 
 	for i := 0; i < len(bs); i++ {
-		//fmt.Printf("byte %d is\n", bs[i])
-		if bs[i] == 32 {
-			k = k+1
-		}
+
+		fmt.Printf("byte %d is\n", bs[i])
+
+		if bs[i] == 32 {k = k+1}
+		if bs[i] == 10 {k = k+1}
 
 		}
 
