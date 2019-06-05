@@ -13,7 +13,7 @@ func main() {
 		result [][]byte
 		k      int
 		j      int
-//		p      []int
+	//	p      []int
 		b      int
 		c	   string
 	)
@@ -44,14 +44,12 @@ func main() {
 
 	}
 
-	for l := 0; l < len(bs); l++ { 
-		for i := 97; i < 123; i++ {
-			if byte(i) == bs[l] {
+	for l := 0; l < len(bs); l++ {
+		for i := 0; i < len(bs); i++ {
+			if bs[i] == bs[l] {
 				p[i] = p[i] + 1
 			}
-
 		}
-
 	}
 
 	if temp != nil {
@@ -62,13 +60,13 @@ func main() {
 	fmt.Println(string(bs))
 	fmt.Println(result)
 
-	for i := 97; i < 123; i++ {
+	for i := 0; i < len(p); i++ {
 		if p[i] != 0 {
-		fmt.Println(string(i), " ", p[i])
+		fmt.Println(string(p[i]), " ", p[i])
 		}
 		if b < p[i] {
 			b = p[i]
-			c = string(i)
+			c = string(p[i])
 		}
 	}
 	
@@ -77,3 +75,4 @@ func main() {
 
 
 }
+
