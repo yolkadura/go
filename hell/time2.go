@@ -3,11 +3,16 @@ package main
 import (
 	"fmt"
 	"time"
+	"os"
+	"bufio"
+	"strconv"
 )
 
 func main() {
 
 	var (
+		line string
+		err error
 		yyyy int
 		mm int
 		dd int
@@ -15,28 +20,79 @@ func main() {
 		m int
 		s int
 	)
-    
-  fmt.Print("What year?: ")
-	fmt.Scanf("%d", &yyyy)
-	fmt.Print("What month?: ")
-	fmt.Scanf("%d", &mm)
-	fmt.Print("What day?: ")
-	fmt.Scanf("%d", &dd)
-	fmt.Print("What hour?: ")
-	fmt.Scanf("%d", &h)
-	fmt.Print("What minute?: ")
-	fmt.Scanf("%d", &m)
-	fmt.Print("What sec?: ")
-  fmt.Scanf("%d", &s)
+	
+	input := bufio.NewScanner(os.Stdin)
 
+	fmt.Print("What year?: ")									//новый скан какой-то
+	_, line, err = input.Scan(), input.Text(), input.Err()		//year
+	if err != nil {
+		fmt.Errorf("can't scan, %v", err)
+	}
 
+	yyyy, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid year, %v", err)
+	}
 
-	//fmt.Println(time.Unix(1527789600, 0))     // seconds to date
+	fmt.Print("What month?: ")									//новый скан какой-то
+	_, line, err = input.Scan(), input.Text(), input.Err()		//month
+	if err != nil {
+		fmt.Errorf("can't scan, %v", err)
+	}
 
-	secondsEastOfUTC := int((3 * time.Hour).Seconds())	
+	mm, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid month, %v", err)
+	}
+
+	fmt.Print("What day?: ")									//новый скан какой-то
+	_, line, err = input.Scan(), input.Text(), input.Err()		//day
+	if err != nil {
+		fmt.Errorf("can't scan, %v", err)
+	}
+
+	dd, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid day, %v", err)
+	}
+
+	fmt.Print("What hour?: ")									//новый скан какой-то
+	_, line, err = input.Scan(), input.Text(), input.Err()		//hour
+	if err != nil {
+		fmt.Errorf("can't scan, %v", err)
+	}
+
+	h, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid hour, %v", err)
+	}
+
+	fmt.Print("What min?: ")									//новый скан какой-то
+	_, line, err = input.Scan(), input.Text(), input.Err()		//min
+	if err != nil {
+		fmt.Errorf("can't scan, %v", err)
+	}
+
+	m, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid min, %v", err)
+	}
+
+	fmt.Print("What sec?: ")									//новый скан какой-то
+	_, line, err = input.Scan(), input.Text(), input.Err()		//sec
+	if err != nil {
+		fmt.Errorf("can't scan, %v", err)
+	}
+
+	s, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid sec, %v", err)
+	}
+
+	secondsEastOfUTC := int((3 * time.Hour).Seconds())	//таймзона
 	msk := time.FixedZone("MSK Time", secondsEastOfUTC)
-	//t := time.Date(2018, 6, 1, 0, 0, 0, 0, msk)
-	t := time.Date(yyyy, mm, dd, h, m, s, 0, msk)
+	t := time.Date(yyyy, time.Month(mm), dd, h, m, s, 0, msk)
+	
 	fmt.Println(t.Unix())     // date to seconds
 
 	fmt.Println(time.Unix(t.Unix(), 0)) //check
