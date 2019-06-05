@@ -62,11 +62,11 @@ func main() {
 
 	for i := 0; i < len(p); i++ {
 		if p[i] != 0 {
-		fmt.Println(string(p[i]), " ", p[i])
+		fmt.Println(string(bs[i]), " ", p[i])
 		}
 		if b < p[i] {
 			b = p[i]
-			c = string(p[i])
+			c = string(bs[i])
 		}
 	}
 	
@@ -75,4 +75,3 @@ func main() {
 
 
 }
-
