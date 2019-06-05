@@ -25,8 +25,8 @@ func main() {
 	if err != nil {
 		fmt.Println("Error", err)
 	}
-	j = len(bs)
-	p := make([]int,len(bs))
+	j = len(bs) //количество символов без знаков
+	p := make([]int,len(bs)) //массив для количества
 	for i := 0; i < len(bs); i++ {
 
 		switch bs[i] {
