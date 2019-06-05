@@ -17,7 +17,7 @@ func main() {
 		b      int
 		c	   string
 	)
-	p := make([]int,255)
+	
 	fmt.Print("What file you want encode?: ")
 	fmt.Scanf("%s", &file) //чтение ввода имени файла юзером
 
@@ -26,7 +26,7 @@ func main() {
 		fmt.Println("Error", err)
 	}
 	j = len(bs)
-
+	p := make([]int,len(bs))
 	for i := 0; i < len(bs); i++ {
 
 		switch bs[i] {
@@ -47,7 +47,7 @@ func main() {
 	for l := 0; l < len(bs); l++ {
 		for i := 0; i < len(bs); i++ {
 			if bs[i] == bs[l] {
-				p[i] = p[i] + 1
+				p[l] = p[l] + 1
 			}
 		}
 	}
@@ -59,6 +59,7 @@ func main() {
 
 	fmt.Println(string(bs))
 	fmt.Println(result)
+	fmt.Println(p)
 
 	for i := 0; i < len(p); i++ {
 		if p[i] != 0 {
