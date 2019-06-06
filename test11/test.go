@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"strings"
 )
 
 func main() {
@@ -24,7 +23,6 @@ func main() {
 		fmt.Println("Error", err)
 	}
 	j = len(bs) //количество символов без знаков
-	//p := make([]int,255) //массив для количества
 	m := make(map[string]int) //мапа
 	for i := 0; i < len(bs); i++ {
 		switch bs[i] {
@@ -42,13 +40,12 @@ func main() {
 	}
 
 	for i := 0; i < len(bs); i++ {
-		m[string(bs[i])] = strings.Count(string(bs), string(bs[i]))
+		m[string(bs[i])] += 1
 	}
 
 	fmt.Println(string(bs))
 	fmt.Println(bs)
 	fmt.Println(result)
-	//fmt.Println(p)
-	fmt.Println(m)
+	fmt.Println("count letters ", m)
 
 }
