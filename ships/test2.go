@@ -9,29 +9,30 @@ const (
 	ship = "o"
 	sea = "~"
 	shot = "x"
+	n = 5 //длина массива
 )
 
 func main() {
 
 	var (
-		deck [5][5] string //дека
-		p int			//поинт - рандом для оси
-		a int			//строка
-		b int			//столбец
+		deck [n][n] string 	//дека
+		p int				//поинт - рандом для оси
+		a int				//строка
+		b int				//столбец
 	)
 
 	rand.Seed(time.Now().UnixNano())
 
 	p = rand.Intn(2)
-	a = rand.Intn(5)
-	b = rand.Intn(5)
+	a = rand.Intn(n)
+	b = rand.Intn(n)
 	
 	// p = 0 //0 - горизонталь, 1 - вертикаль
 	// a = 3 
 	// b = 4
 	
-	for i := 0; i < 5; i++ { //заполнение волнами
-		for j := 0; j < 5; j++ {
+	for i := 0; i < n; i++ { //заполнение волнами
+		for j := 0; j < n; j++ {
 			deck[i][j] = sea
 		}
 	}
@@ -42,7 +43,7 @@ func main() {
 				for i := b; i< b+3; i++ {
 					deck[a][i] = ship
 				}
-			} else if b == 4 {
+			} else if b == n-1 {
 				for i := b-2; i< b+1; i++ {
 					deck[a][i] = ship
 				} 
@@ -57,7 +58,7 @@ func main() {
 				for i := a; i< a+3; i++ {
 					deck[i][b] = ship
 				}
-			} else if a == 4 {
+			} else if a == n-1 {
 				for i := a-2; i< a+1; i++ {
 					deck[i][b] = ship
 				} 
@@ -68,7 +69,7 @@ func main() {
 			}
 	}
 
-	for j := 0; j < 5; j++ { //вывод
+	for j := 0; j < n; j++ { //вывод
 		fmt.Println(deck[j])
 	}
 
