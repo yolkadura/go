@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 func main() {
@@ -12,9 +13,9 @@ func main() {
 		p int			//поинт - центр корабля
 		a int			//поинт - рандом для оси
 	)
-
-	p = rand.Intn(2) + 1
-	a = rand.Intn(1)
+	rand.Seed(time.Now().UnixNano())
+	p = rand.Intn(3) + 1
+	a = rand.Intn(2)
 	//p = 1
 	//a = 1
 	
@@ -24,16 +25,6 @@ func main() {
 			deck[i][j] = "~"
 		}
 	}
-
-	//if a == 0 {
-	//	for i := p-1; i < p+2; i++ {
-	//		deck[i][p] = "o"
-	//		}
-	//} else {
-	//	for i := p-1; i < p+2; i++ {
-	//		deck[p][i] = "o"
-	//		}
-	//}
 	
 	switch a {
 	case 0:
@@ -51,7 +42,6 @@ func main() {
 		fmt.Println(deck[j])
 	}
 
-	
-	
 	fmt.Println(p)
+	fmt.Println(a)
 }
