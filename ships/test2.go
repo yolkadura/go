@@ -14,16 +14,17 @@ func main() {
 		a int			//строка
 		b int			//столбец
 	)
-	rand.Seed(time.Now().UnixNano())
-	p = rand.Intn(2)
-	a = rand.Intn(5)
-	b = rand.Intn(5)
-	
-	// p = 0 //0 - горизонталь, 1 - вертикаль
-	// a = 4 
-	// b = 1
-	
 
+	rand.Seed(time.Now().UnixNano())
+
+	// p = rand.Intn(2)
+	// a = rand.Intn(5)
+	// b = rand.Intn(5)
+	
+	p = 0 //0 - горизонталь, 1 - вертикаль
+	a = 4 
+	b = 4
+	
 	for i := 0; i < 5; i++ { //заполнение волнами
 		for j := 0; j < 5; j++ {
 			deck[i][j] = "~"
@@ -32,31 +33,35 @@ func main() {
 	
 	switch p {
 	case 0: //горизонталь
-			if b != 0 {
-				for i := b-1; i< b+2; i++ {
-					deck[a][i] = "x"
+			if b == 0 {
+				for i := b; i< b+3; i++ {
+					deck[a][i] = "o"
+				}
+			} else if b == 4 {
+				for i := b-2; i< b+1; i++ {
+					deck[a][i] = "o"
 				} 
 			} else {
-				for i := b; i< b+3; i++ {
-						deck[a][i] = "x"
-				}
+				for i := b-1; i< b+2; i++ {
+					deck[a][i] = "o"
+				} 
 			}
 			
 	case 1: //вертикаль
-			if a != 0 {
-				for i := a-1; i< a+2; i++ {
-					deck[i][b] = "x"
+			if a == 0 {
+				for i := a; i< a+3; i++ {
+					deck[i][b] = "o"
+				}
+			} else if a == 4 {
+				for i := a-2; i< a+1; i++ {
+					deck[i][b] = "o"
 				} 
 			} else {
-				for i := a; i< a+3; i++ {
-						deck[i][b] = "x"
-				}
+				for i := a-1; i< a+2; i++ {
+					deck[i][b] = "o"
+				} 
 			}
 	}
-
-
-
-	//deck[2][3] = "x"
 
 	for j := 0; j < 5; j++ { //вывод
 		fmt.Println(deck[j])
