@@ -101,7 +101,7 @@ func main() {
 					for i := a2; i< a2+2; i++ {
 						deck[i][b2] = ship
 					}
-				} else a2 == n-1 {
+				} else if a2 == n-1 {
 					for i := a2-1; i< a2+1; i++ {
 						deck[i][b2] = ship
 					} 
