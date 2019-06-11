@@ -96,15 +96,23 @@ func main() {
 			deck[i][j] = sea
 		}
 	}
+	if deck[a][b] == sea {
+		ship3 (&deck,p,a,b)
+	} else {
+		a = rand.Intn(n)
+		b = rand.Intn(n) 
+	}
 	
-	ship3 (&deck,p,a,b)
-	fmt.Println(p)
+
 	p = rand.Intn(2)
 	
-	for a2 == a || b2 == b {
-	a2 = rand.Intn(n)
-	b2 = rand.Intn(n)
+	if deck[a2][b2] == sea {
+		ship2 (&deck,p,a2,b2)
+	} else {
+		a2 = rand.Intn(n)
+		b2 = rand.Intn(n) 
 	}
+	
 	
 	ship2 (&deck,p,a2,b2)
 	
@@ -115,7 +123,6 @@ func main() {
 	
 	fmt.Println("a",a)
 	fmt.Println("b",b)
-	fmt.Println(p)	
 	fmt.Println("a2",a2)
 	fmt.Println("b2",b2)
 }
