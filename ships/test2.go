@@ -19,6 +19,8 @@ func main() {
 		p int				//поинт - рандом для оси
 		a int				//строка
 		b int				//столбец
+		a2 int				//строка
+		b2 int				//столбец
 	)
 
 	rand.Seed(time.Now().UnixNano())
@@ -26,6 +28,8 @@ func main() {
 	p = rand.Intn(2)
 	a = rand.Intn(n)
 	b = rand.Intn(n)
+	a2 = rand.Intn(n)
+	b2 = rand.Intn(n)
 	
 	// p = 0 //0 - горизонталь, 1 - вертикаль
 	// a = 3 
@@ -37,7 +41,7 @@ func main() {
 		}
 	}
 	
-	switch p {
+	switch p { //кораблик 3
 	case 0: //горизонталь
 			if b == 0 {
 				for i := b; i< b+3; i++ {
@@ -69,11 +73,57 @@ func main() {
 			}
 	}
 
+	p = rand.Intn(2)
+	
+	for a2 == a || b2 == b {
+	a2 = rand.Intn(n)
+	b2 = rand.Intn(n)
+	}
+	
+	switch p { //кораблик 2
+		case 0: //горизонталь
+				if b == 0 {
+					for i := b; i< b+2; i++ {
+						deck[a][i] = ship
+					}
+				} else if b == n-1 {
+					for i := b-1; i< b+1; i++ {
+						deck[a][i] = ship
+					} 
+				} else {
+					for i := b-1; i< b+1; i++ {
+						deck[a][i] = ship
+					} 
+				}
+				
+		case 1: //вертикаль
+				if a == 0 {
+					for i := a; i< a+2; i++ {
+						deck[i][b] = ship
+					}
+				} else if a == n-1 {
+					for i := a-1; i< a+1; i++ {
+						deck[i][b] = ship
+					} 
+				} else {
+					for i := a-1; i< a+1; i++ {
+						deck[i][b] = ship
+					} 
+				}
+	}
+
 	for j := 0; j < n; j++ { //вывод
 		fmt.Println(deck[j])
 	}
 
 	fmt.Println(p)
-	fmt.Println(a)
-	fmt.Println(b)
+	fmt.Println("a",a)
+	fmt.Println("b",b)
+	fmt.Println(p)	
+	fmt.Println("a2",a2)
+	fmt.Println("b2",b2)
+
+
+
+
 }
