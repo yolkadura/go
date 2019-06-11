@@ -82,32 +82,32 @@ func main() {
 	
 	switch p { //кораблик 2
 		case 0: //горизонталь
-				if b == 0 {
-					for i := b; i< b+2; i++ {
-						deck[a][i] = ship
+				if b2 == 0 {
+					for i := b2; i< b2+2; i++ {
+						deck[a2][i] = ship
 					}
-				} else if b == n-1 {
-					for i := b-1; i< b+1; i++ {
-						deck[a][i] = ship
+				} else if b2 == n-1 {
+					for i := b2-1; i< b2+1; i++ {
+						deck[a2][i] = ship
 					} 
 				} else {
-					for i := b-1; i< b+1; i++ {
-						deck[a][i] = ship
+					for i := b2-1; i< b2+1; i++ {
+						deck[a2][i] = ship
 					} 
 				}
 				
 		case 1: //вертикаль
-				if a == 0 {
-					for i := a; i< a+2; i++ {
-						deck[i][b] = ship
+				if a2 == 0 {
+					for i := a2; i< a2+2; i++ {
+						deck[i][b2] = ship
 					}
-				} else if a == n-1 {
-					for i := a-1; i< a+1; i++ {
-						deck[i][b] = ship
+				} else if a2 == n-1 {
+					for i := a2-1; i< a2+1; i++ {
+						deck[i][b2] = ship
 					} 
 				} else {
-					for i := a-1; i< a+1; i++ {
-						deck[i][b] = ship
+					for i := a2-1; i< a2+1; i++ {
+						deck[i][b2] = ship
 					} 
 				}
 	}
@@ -122,8 +122,4 @@ func main() {
 	fmt.Println(p)	
 	fmt.Println("a2",a2)
 	fmt.Println("b2",b2)
-
-
-
-
 }
