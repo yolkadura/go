@@ -86,10 +86,6 @@ func main() {
 					for i := b2; i< b2+2; i++ {
 						deck[a2][i] = ship
 					}
-				} else if b2 == n-1 {
-					for i := b2-1; i< b2+1; i++ {
-						deck[a2][i] = ship
-					} 
 				} else {
 					for i := b2-1; i< b2+1; i++ {
 						deck[a2][i] = ship
@@ -101,11 +97,11 @@ func main() {
 					for i := a2; i< a2+2; i++ {
 						deck[i][b2] = ship
 					}
-				} else if a2 == n-1 {
+				} else {
 					for i := a2-1; i< a2+1; i++ {
 						deck[i][b2] = ship
 					} 
-				} 
+				}
 	}
 
 	for j := 0; j < n; j++ { //вывод
