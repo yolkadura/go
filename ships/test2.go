@@ -12,6 +12,32 @@ const (
 	n = 5 //длина массива
 )
 
+func ship2 (deck[n][n] string, p, a2, b2 int) {
+	switch p { //кораблик 2
+			case 0: //горизонталь
+					if b2 == 0 {
+						for i := b2; i< b2+2; i++ {
+							deck[a2][i] = ship
+						}
+					} else {
+						for i := b2-1; i< b2+1; i++ {
+							deck[a2][i] = ship
+						}
+					}
+					
+			case 1: //вертикаль
+					if a2 == 0 {
+						for i := a2; i< a2+2; i++ {
+							deck[i][b2] = ship
+						}
+					} else {
+						for i := a2-1; i< a2+1; i++ {
+							deck[i][b2] = ship
+						}
+					}
+		}
+}
+
 func main() {
 
 	var (
@@ -80,29 +106,30 @@ func main() {
 	b2 = rand.Intn(n)
 	}
 	
-	switch p { //кораблик 2
-		case 0: //горизонталь
-				if b2 == 0 {
-					for i := b2; i< b2+2; i++ {
-						deck[a2][i] = ship
-					}
-				} else {
-					for i := b2-1; i< b2+1; i++ {
-						deck[a2][i] = ship
-					} 
-				}
+	ship2 (deck,p,a2,b2)
+	// switch p { //кораблик 2
+	// 	case 0: //горизонталь
+	// 			if b2 == 0 {
+	// 				for i := b2; i< b2+2; i++ {
+	// 					deck[a2][i] = ship
+	// 				}
+	// 			} else {
+	// 				for i := b2-1; i< b2+1; i++ {
+	// 					deck[a2][i] = ship
+	// 				}
+	// 			}
 				
-		case 1: //вертикаль
-				if a2 == 0 {
-					for i := a2; i< a2+2; i++ {
-						deck[i][b2] = ship
-					}
-				} else {
-					for i := a2-1; i< a2+1; i++ {
-						deck[i][b2] = ship
-					} 
-				}
-	}
+	// 	case 1: //вертикаль
+	// 			if a2 == 0 {
+	// 				for i := a2; i< a2+2; i++ {
+	// 					deck[i][b2] = ship
+	// 				}
+	// 			} else {
+	// 				for i := a2-1; i< a2+1; i++ {
+	// 					deck[i][b2] = ship
+	// 				}
+	// 			}
+	// }
 
 	for j := 0; j < n; j++ { //вывод
 		fmt.Println(deck[j])
