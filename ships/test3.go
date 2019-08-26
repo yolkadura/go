@@ -2,64 +2,71 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
+	"os"
+	"bufio"
+	"strconv"
+	// "math/rand"
+	// "time"
 )
 const (
 	ship = "o"
 	sea = "~"
+	text string
 	//shot = "x"
 	n = 5 //длина массива
 )
 
-func ship3 (deck*[n][n] string, a, b int) { //кораблик 3
-if deck[a-1][b] == "~" && deck[a-2][b] == "~" {
-	deck[a][b] = "x"
-	deck[a-1][b] = "x"
-	deck[a-2][b] = "x"
-}
-if deck[a][b+1] == "~" && deck[a][b+2] == "~" {
-	deck[a][b] = "x"
-	deck[a][b+1] = "x"
-	deck[a][b+2] = "x"
-}
-if deck[a+1][b] == "~" && deck[a+2][b] == "~" {
-	deck[a][b] = "x"
-	deck[a+1][b] = "x"
-	deck[a+2][b] = "x"
-}
-if deck[a][b-1] == "~" && deck[a][b-2] == "~" {
-	deck[a][b] = "x"
-	deck[a][b-1] = "x"
-	deck[a][b-2] = "x"
-}
+func coord (text string) {
+	fmt.Print(text)									
+	_, line, err = input.Scan(), input.Text(), input.Err()		
+	if err != nil {
+		fmt.Errorf("can't find point, %v", err)
+	}
+
+	x, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid point, %v", err)
+	}
+	return x
 }
 
 func main() {
 
 	var (
 		deck [n][n] string 	//дека
-		a int				//строка
-		b int				//столбец
+		x int
+		y int
+		line string
+		err error
+
 	)
-
-	rand.Seed(time.Now().UnixNano())
-
-	a = rand.Intn(n)
-	b = rand.Intn(n)
 	
+	input := bufio.NewScanner(os.Stdin)
+
 	for i := 0; i < n; i++ { //заполнение волнами
 		for j := 0; j < n; j++ {
 			deck[i][j] = sea
 		}
 	}
-	
-	ship3 (&deck,a,b)
 
 	for j := 0; j < n; j++ { //вывод
 		fmt.Println(deck[j])
 	}
 
-	fmt.Println("a",a)
-	fmt.Println("b",b)
+
+	coord("Куда поставим кораблик? Координата Х: ")
+
+	fmt.Print("Куда поставим кораблик? Координата Y: ")									//новый скан какой-то
+	_, line, err = input.Scan(), input.Text(), input.Err()		//month
+	if err != nil {
+		fmt.Errorf("can't find point, %v", err)
+	}
+
+	y, err = strconv.Atoi(line)
+	if err != nil {
+		fmt.Errorf("invalid point, %v", err)
+	}
+
+
+	fmt.Print(x,y)
 }
