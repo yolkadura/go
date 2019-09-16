@@ -57,10 +57,10 @@ func main() {
 
 	}
 
-
+	s = len(n)
 	for i := 0; i < len(n)-1; i++ {
 		if qqq(n[i], n[i+1]) == true {
-			s++
+			s = s-1
 		}
 	}
 
