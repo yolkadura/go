@@ -2,26 +2,34 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 )
 const (
 	offset = 97
 )
 var (
-	words = []string {"gin", "zen", "gig", "msg"}
+	words = []string {"gin", "zen", "gig", "omg"}
 	alphabet = []string {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."}
 	x [][]byte
 	k string
 	y []byte
 	l [][]byte
-	n [][][]byte
-	temp [][]byte
+	n [][]byte
+	temp []byte
 	s int = 0
-
+	z [][]byte
 )
-// func uniqueMorseRepresentations(words []string) int {
-    
-// }
+
+func qqq(a []byte,b []byte) bool {
+
+	if len(a) != len(b) {return false}
+
+	for i := range a {
+		if a[i] != b[i] {return false}
+	}
+
+	return true
+
+}
 
 func main() {
 	for i := range words { //перевод массива текста в массив байт
@@ -38,7 +46,8 @@ func main() {
 
 	for i := range x {
 		for j := range x[i]{
-			temp = append(temp, l[x[i][j]-offset])
+			qq := l[x[i][j]-offset]
+			temp = append(temp, qq...)
 			if j == (len(x[i])-1) {
 				n = append(n, temp)
 				temp = nil
@@ -48,30 +57,24 @@ func main() {
 
 	}
 
-	// for i := range n {
-	// 	for j := i+1; j<len(n); j++ {
-	// 		if n[i] == n[j] {
-	// 			s++
-	// 		}
-	// 	}
-	// }
 
 	for i := 0; i < len(n)-1; i++ {
-		if reflect.DeepEqual(n[i], n[i+1]) == true {
+		if qqq(n[i], n[i+1]) == true {
 			s++
 		}
 	}
 
-fmt.Println("x", x)
-fmt.Println("l",l)
-// fmt.Println("temp",temp)
-fmt.Println("n",n)
-fmt.Println("n",n[0])
-fmt.Println("n",n[1])
-fmt.Println("n",n[2])
-fmt.Println("n",n[3])
-// fmt.Println("n",n[0][0])
-// fmt.Println("n",n[0][0][0])
-fmt.Println("s",s)
-fmt.Println("DeepEqual",reflect.DeepEqual(n[0], n[3]))
+
+	
+
+	fmt.Println("x", x)
+	fmt.Println("l",l)
+	fmt.Println("n",n)
+	fmt.Println("s",s)
+
+	for i := range n {
+		fmt.Println("n",n[i])
+	}
+
+
 }
