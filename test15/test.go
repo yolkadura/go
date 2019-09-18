@@ -7,7 +7,12 @@ const (
 	offset = 97
 )
 var (
-	words = []string {"gin", "zen", "gig", "omg"}
+	// words = []string {"gin", "zen", "gig", "msg"}
+	// words = []string {"gin", "zen", "gig", "omg"}
+	// words = []string {"zocd","gjkl","hzqk","hzgq","gjkl"}
+	// words = []string {"zocd","gjkl","hzqk","hzgq","gjkl","gig","omg"}
+	words = []string {"gin","gin"}
+	// words = []string {"yxmine","yxzd","eljys","uiaopi","pwlk"}
 	alphabet = []string {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."}
 	x [][]byte
 	k string
@@ -16,7 +21,6 @@ var (
 	n [][]byte
 	temp []byte
 	s int = 0
-	z [][]byte
 )
 
 func qqq(a []byte,b []byte) bool {
@@ -57,24 +61,59 @@ func main() {
 
 	}
 
-	s = len(n)
-	for i := 0; i < len(n)-1; i++ {
-		if qqq(n[i], n[i+1]) == true {
-			s = s-1
-		}
+
+	for i := range n {
+		fmt.Println("n",n[i])
 	}
 
+	// switch len(n) {
+	// case 0, 1 : 
+	// 	s = len(n)
+	// default:
+	// 	for i := 0; i < len(n)-1; i++ {
+	// 		for j := i+1; j < len(n); j++ {
+	// 			if qqq(n[i], n[j]) == true {
+	// 				n = append(n[:i], n[i+1:]...)
+					
+	// 			}
+	// 		}
+	// 	}
+	// 	s = len(n)
+	// }
 
+	switch len(n) {
+		case 0, 1 : 
+			s = len(n)
+		default:
+			for i := 0; i < len(n); i++ {
+				for j := i+1; j < len(n); j++ {
+					if qqq(n[i], n[j]) == true {
+						n[i] = nil
+						
+					}
+				}
+			}
+			s = len(n)
+			for i := range n {
+				if n[i] == nil {
+					s--
+				}
+			}
+	}
 	
 
-	fmt.Println("x", x)
-	fmt.Println("l",l)
-	fmt.Println("n",n)
+
 	fmt.Println("s",s)
 
 	for i := range n {
 		fmt.Println("n",n[i])
 	}
+
+
+	// fmt.Println("x", x)
+	// fmt.Println("l",l)
+	// fmt.Println("n",n)
+	
 
 
 }
