@@ -1,48 +1,36 @@
 package main
 
 import (
-	"net/http"
-	"io/ioutil"
-	"encoding/json"
-	"fmt"
 	"log"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-//точка входа
 func main() {
-	botToken := "753203683:AAF7UUwaVSihMMa_R2qci-QZqkRgQ3tV1HE"
-	botApi := "https://api.telegram.org/bot"
-	botUrl := botApi + botToken
-
-	for ;; { //бесконечный цикл обновлений
-		updates, err := getUpdates(botUrl)
-			if err != nil {
-				log.Println("something wrong: ", err.Error())
-			}
-		fmt.Println(updates)
+	bot, err := tgbotapi.NewBotAPI("753203683:AAF7UUwaVSihMMa_R2qci-QZqkRgQ3tV1HE")
+	if err != nil {
+		log.Panic(err)
 	}
-}
 
-//запросы обновлений
-func getUpdates(botUrl string) ([]Update, error) {
-	resp, err := http.Get(botUrl + "/getUpdates")
-		if err != nil {
-			return nil, err
-		}
-	defer resp.Body.Close() //отложеное закрытие тела
-	body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			return nil, err
-		}
-	var restResponse RestResponse //массив результатов
-	err = json.Unmarshal(body, &restResponse)
-		if err != nil {
-			return nil, err
-		}
-	return restResponse.Result, nil
-}
+	bot.Debug = true
 
-//ответ на обновления
-func respond() {
+	log.Printf("Authorized on account %s", bot.Self.UserName)
 
+	u := tgbotapi.NewUpdate(0)
+	u.Timeout = 60
+
+	updates, err := bot.GetUpdatesChan(u)
+
+	for update := range updates {
+		if update.Message == nil { // ignore any non-Message Updates
+			continue
+		}
+
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+		msg.ReplyToMessageID = update.Message.MessageID
+
+		bot.Send(msg)
+	}
 }
