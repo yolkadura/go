@@ -1,0 +1,14 @@
+msg := tgbotapi.NewPhotoUpload(ChatID, "tests/image.jpg")
+	msg.Caption = "Test"
+
+
+
+    func NewPhotoUpload(chatID int64, file interface{}) PhotoConfig {
+	return PhotoConfig{
+		BaseFile: BaseFile{
+			BaseChat:    BaseChat{ChatID: chatID},
+			File:        file,
+			UseExisting: false,
+		},
+	}
+}

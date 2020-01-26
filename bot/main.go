@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"golang.org/x/net/proxy"
@@ -59,24 +60,39 @@ func main() {
 		// msg.ReplyToMessageID = update.Message.MessageID
 		// bot.Send(msg)
 
-		if update.Message.Text == "слыш" {
+		//тут типа новый мембер, но хз работает ли
+		if update.Message.NewChatMembers != nil {
+			// reply := "Дарова! " + update.Message.
+			// msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
+			// bot.Send(msg)
+		}
+
+		if update.Message.LeftChatMember != nil {
+			reply := "Ну и иди лесом!" + update.Message.From.UserName
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
+			bot.Send(msg)
+		}
+
+		switch update.Message.Text {
+		case "слыш":
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "слышу, слышу")
 			bot.Send(msg)
-
+		case "жопка":
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "сам такой")
+			bot.Send(msg)
+		case "пикачу":
+			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAAM3XisZmc0Vnfhgd2t5Ii8QuvolRxcAArkCAAI2diAO7XTrBWfSW4UYBA")
+			bot.Send(msg)
+		case "токсик":
+			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAANPXitXd_yFC9NwkrB_3b1aIUEcvh4AAgcEAALCGBUX9uiVkzQeVxsYBA")
+			bot.Send(msg)
+		case "жопа":
+			msg := tgbotapi.NewPhotoShare(update.Message.Chat.ID, "https://66.media.tumblr.com/c8878079606e35ea63e7bf10322f3200/tumblr_phtfwhni8Z1te51fyo1_540.png")
+			bot.Send(msg)
 		}
 
-		//тут типа новый мембер, но хз работает ли
-		var reply string
-
-		if update.Message.NewChatMembers != nil {
-			// В чат вошел новый пользователь
-			// Поприветствуем его
-			reply = fmt.Sprintf("Даров @%s! Семки есть?", update.Message.NewChatMembers)
-		}
-		if reply != "" {
-			// Созадаем сообщение
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
-			// и отправляем его
+		if strings.Contains(update.Message.Text, "аниме") == true {
+			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAAM9XitUms2Xl_mcOU9cPtjOdbw0JDQAAvUDAALCGBUXIz-zor3JaQcYBA")
 			bot.Send(msg)
 		}
 
