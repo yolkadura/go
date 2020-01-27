@@ -33,8 +33,8 @@ func main() {
 	httpTransport.Dial = dialer.Dial
 	httpClient := &http.Client{Transport: httpTransport}
 
-	//это была строка без сокса bot, err := tgbotapi.NewBotAPI("753203683:AAF7UUwaVSihMMa_R2qci-QZqkRgQ3tV1HE")
-	bot, err := tgbotapi.NewBotAPIWithClient("753203683:AAF7UUwaVSihMMa_R2qci-QZqkRgQ3tV1HE", httpClient)
+	//это была строка без сокса bot, err := tgbotapi.NewBotAPI("")
+	bot, err := tgbotapi.NewBotAPIWithClient("", httpClient)
 	if err != nil {
 		log.Panic(err)
 	}
