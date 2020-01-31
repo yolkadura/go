@@ -6,6 +6,13 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"math/rand"
+	"time"
+
+	"github.com/carrot/go-pinterest"
+	libgiphy "github.com/sanzaru/go-giphy"
+
+	forecast "github.com/mlbright/darksky/v2"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"golang.org/x/net/proxy"
@@ -60,41 +67,123 @@ func main() {
 		// msg.ReplyToMessageID = update.Message.MessageID
 		// bot.Send(msg)
 
-		//тут типа новый мембер, но хз работает ли
+		//тут типа новый мембер
 		if update.Message.NewChatMembers != nil {
-			// reply := "Дарова! " + update.Message.
-			// msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
-			// bot.Send(msg)
-		}
+			members := *update.Message.NewChatMembers
+			for _, member := range members {
+				// fmt.Println("вот тут лежит что-то ", member.UserName)
+				reply := "Дарова! @" + member.UserName
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
+				bot.Send(msg)
+			}
 
+		}
+		//мембер ушел
 		if update.Message.LeftChatMember != nil {
-			reply := "Ну и иди лесом!" + update.Message.From.UserName
+			reply := "Скучать не буду! (да кого я обманываю) @" + update.Message.LeftChatMember.UserName
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
 			bot.Send(msg)
 		}
 
-		switch update.Message.Text {
+		switch strings.ToLower(update.Message.Text) {
 		case "слыш":
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "слышу, слышу")
-			bot.Send(msg)
-		case "жопка":
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "сам такой")
 			bot.Send(msg)
 		case "пикачу":
 			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAAM3XisZmc0Vnfhgd2t5Ii8QuvolRxcAArkCAAI2diAO7XTrBWfSW4UYBA")
 			bot.Send(msg)
-		case "токсик":
-			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAANPXitXd_yFC9NwkrB_3b1aIUEcvh4AAgcEAALCGBUX9uiVkzQeVxsYBA")
+		case "жопа марио":
+			//идем на пинтерест
+			client := pinterest.NewClient().RegisterAccessToken("AhWVuk8k2fUvGH1T_N3YBil8ysODFe4L7H5LHjpGfxGtP4Cu3ghDQDAAAj2mRn8VQyigwnsAAAAA")
+			//берем айди и ищем
+			pin, err := client.Pins.Fetch("748582769298226892")
+			//ошибки в лог
+			if err != nil {
+				fmt.Println(err)
+			}
+			//вывод фоточки в чат
+			msg := tgbotapi.NewPhotoShare(update.Message.Chat.ID, pin.Url)
 			bot.Send(msg)
-		case "жопа":
-			msg := tgbotapi.NewPhotoShare(update.Message.Chat.ID, "https://66.media.tumblr.com/c8878079606e35ea63e7bf10322f3200/tumblr_phtfwhni8Z1te51fyo1_540.png")
+		case "пук":
+			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAANlXjAPO3YB8UrmMoDKSUwWstOGzvcAAjAAA8vnJA34Ty5P-pcKXBgE")
 			bot.Send(msg)
-		}
+		case "погода Краснодар":
 
-		if strings.Contains(update.Message.Text, "аниме") == true {
+			key := "c258e7938c7aca2458497faa4567b47d"
+			lat := "45.0439"
+			long := "38.9837"
+
+			f, err := forecast.Get(key, lat, long, "now", forecast.SI, forecast.Russian)
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Printf("%s: %s\n", f.Timezone, f.Currently.Summary)
+			fmt.Printf("Влажность: %.2f\n", f.Currently.Humidity)
+			fmt.Printf("Температура: %.2f Celsius\n", f.Currently.Temperature)
+			fmt.Printf("Скорость ветра: %.2f\n", f.Currently.WindSpeed)
+
+			// text :=
+			// msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
+			// bot.Send(msg)
+		case "жопа":
+			//подключаемся к гифи
+			giphy := libgiphy.NewGiphy("SgZU6aFi34lZB13cQ1Qv4lPqfxn3BuwH")
+			//рандомим
+			dataRandom, err := giphy.GetRandom("booty")
+			if err != nil {
+				fmt.Println("error:", err)
+			}
+			//урл нашей гифки
+			url := dataRandom.Data.Image_original_url
+			//запрос по урл
+			gif, _ := http.Get(url)
+			//загружаем файл
+			file := tgbotapi.NewDocumentUpload(update.Message.Chat.ID, tgbotapi.FileReader{
+				Name:   url,
+				Reader: gif.Body,
+				Size:   gif.ContentLength,
+			   })
+			bot.Send(file)
+		case "хорек":
+			//подключаемся к гифи
+			giphy := libgiphy.NewGiphy("SgZU6aFi34lZB13cQ1Qv4lPqfxn3BuwH")
+			//рандомим
+			dataRandom, err := giphy.GetRandom("ferret")
+			if err != nil {
+				fmt.Println("error:", err)
+			}
+			//урл нашей гифки
+			url := dataRandom.Data.Image_original_url
+			//запрос по урл
+			gif, _ := http.Get(url)
+			//загружаем файл
+			file := tgbotapi.NewDocumentUpload(update.Message.Chat.ID, tgbotapi.FileReader{
+				Name:   url,
+				Reader: gif.Body,
+				Size:   gif.ContentLength,
+			   })
+			bot.Send(file)
+		}
+		//варианты внутри сообщения
+		switch {
+		case strings.Contains(strings.ToLower(update.Message.Text), "аниме"):
 			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAAM9XitUms2Xl_mcOU9cPtjOdbw0JDQAAvUDAALCGBUXIz-zor3JaQcYBA")
 			bot.Send(msg)
+		case strings.Contains(strings.ToLower(update.Message.Text), "токсик"):
+			msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, "CAACAgIAAxkBAANPXitXd_yFC9NwkrB_3b1aIUEcvh4AAgcEAALCGBUX9uiVkzQeVxsYBA")
+			bot.Send(msg)
+		case strings.Contains(strings.ToLower(update.Message.Text), "бот понимает"):
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Я понимаю, да")
+			bot.Send(msg)
 		}
-
+		//варианты ответа на приветствие
+		if strings.Contains(strings.ToLower(update.Message.Text), "привет") {
+			rand.Seed(time.Now().UnixNano())
+			answrs := []string{"Дарова","Куку епта","Мяу?"}
+			num := rand.Intn(len(answrs))
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, answrs[num])
+			bot.Send(msg)
+			
+		}
 	}
 }
