@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"io/ioutil"
 
 	libgiphy "github.com/sanzaru/go-giphy"
 
@@ -47,14 +48,7 @@ func main() {
 	httpTransport.Dial = dialer.Dial
 	httpClient := &http.Client{Transport: httpTransport}
 
-	//чтение файла
-	file, err := ioutil.ReadFile("/home/yolka/go/woodman_api.txt")
-	if err != nil {
-		//return
-		fmt.Println("Error", err)
-	}
-	//перевод файла в строку
-	yourawesomekey := string(file)
+	yourawesomekey := readToken("/home/yolka/go/woodman_api.txt")
 
 	//подключение к апи телеги
 	//это была строка без сокса bot, err := tgbotapi.NewBotAPI(yourawesomekey)
@@ -63,8 +57,10 @@ func main() {
 		log.Panic(err)
 	}
 
+	giphykey := readToken("/home/yolka/go/giphy_api.txt")
+
 	//подключаемся к апи гифи
-	giphy = libgiphy.NewGiphy("SgZU6aFi34lZB13cQ1Qv4lPqfxn3BuwH")
+	giphy = libgiphy.NewGiphy(giphykey)
 
 	bot.Debug = true
 
@@ -175,4 +171,15 @@ func pogoda(lat string, long string, chatid int64) {
 	text := fmt.Sprintf("Часовой пояс: %s\nПогода: %s\nВлажность: %.0f %%\nТемпература: %.2f C\nСкорость ветра: %.2f м/с\n", f.Timezone, f.Currently.Summary, f.Currently.Humidity*100, f.Currently.Temperature, f.Currently.WindSpeed)
 	msg := tgbotapi.NewMessage(chatid, text)
 	bot.Send(msg)
+}
+func readToken(path string) string {
+	//чтение файла
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		//return
+		fmt.Println("Error", err)
+	}
+	//перевод файла в строку
+	yourawesomekey := string(file)
+	return yourawesomekey
 }
