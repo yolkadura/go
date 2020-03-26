@@ -4,6 +4,7 @@ require (
 	github.com/BrandonRomano/iso8601 v0.1.0 // indirect
 	github.com/BrandonRomano/wrecker v0.1.5 // indirect
 	github.com/carrot/go-pinterest v2.1.1+incompatible
+	github.com/codingsince1985/geo-golang v1.6.1
 	github.com/davecgh/go-spew v1.1.1
 	github.com/dlasky/go-wallhaven v0.0.0-20190627020408-f8d3904df136
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
