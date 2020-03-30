@@ -6,14 +6,14 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
+	"os" //для прокси
 	"strings"
 	"time"
 
 	libgiphy "github.com/sanzaru/go-giphy"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	"golang.org/x/net/proxy"
+	"golang.org/x/net/proxy" //для прокси
 )
 
 var (
@@ -25,34 +25,36 @@ const PROXY_ADDR = "213.183.59.195:1080"
 
 func main() {
 
-	//логпассы сокса
+	//логпассы сокса - прокся
 	auth := proxy.Auth{
 		User:     "banya",
 		Password: "supersiski",
 	}
 
-	//настройка подключения
+	//настройка подключения - прокся
 	dialer, err := proxy.SOCKS5("tcp", PROXY_ADDR, &auth, proxy.Direct)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "can't connect to the proxy:", err)
 		os.Exit(1)
 	}
 
-	// настройки клиента
+	// настройки клиента - прокся
 	httpTransport := &http.Transport{}
 	httpTransport.Dial = dialer.Dial
 	httpClient := &http.Client{Transport: httpTransport}
 
-	yourawesomekey := readToken("/home/yolka/go/villager_api.txt")
+	yourawesomekey := readToken("/home/yolka/keys/villager_api.txt")
 
 	//подключение к апи телеги
-	//это была строка без сокса bot, err := tgbotapi.NewBotAPI(yourawesomekey)
+	//это была строка без сокса
+	// bot, err := tgbotapi.NewBotAPI(yourawesomekey)
+	//подключение через проксю
 	bot, err = tgbotapi.NewBotAPIWithClient(yourawesomekey, httpClient)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	giphykey := readToken("/home/yolka/go/giphy_api.txt")
+	giphykey := readToken("/home/yolka/keys/giphy_api.txt")
 
 	//подключаемся к апи гифи
 	giphy = libgiphy.NewGiphy(giphykey)
@@ -83,7 +85,7 @@ func main() {
 			members := *update.Message.NewChatMembers
 			for _, member := range members {
 				// fmt.Println("вот тут лежит что-то ", member.UserName)
-				reply := "Добро пожаловать на остров! @" + member.UserName + "\nВеди себя хорошо"
+				reply := "Добро пожаловать, сосед @" + member.UserName + "!\nУ нас тут самый ламповый чатик по кроссингу, поэтому веди себя хорошо!\n/fc - первым делом можешь заполнить форму дружбы или добавить друзей из таблицы кодов!\nТак же по команде /help могу подсказать разного по основам игры!\nПиратство осуждаем D:<\nПОТРУБИМ :D"
 				msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
 				bot.Send(msg)
 			}
@@ -97,7 +99,7 @@ func main() {
 		//команды
 		switch strings.ToLower(update.Message.Text) {
 		case "/help":
-			reply := "/gif - гифка по АС\n/fc - форма и таблица кодов дружбы\n/fish - про рыбу\n/rock - про камни\n/art - пиксельарты и шмоточки тут - @acpixelart\n/tree - про деревья"
+			reply := "/gif - гифка по АС\n/fc - форма и таблица кодов дружбы\nПиксельарты и шмоточки тут - @acpixelart\nГайды по игре тут - @BiblioAC"
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
@@ -108,23 +110,8 @@ func main() {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
-		case "/fish", "рыба":
-			reply := "Чтобы рыба клюнула - необходимо закинуть удочку так, чтобы поплавок был перед тенью. А чтобы рыбу поймать, надо зажать A когда рыба утащит поплавок под воду, а не когда она просто будет клевать."
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
-			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg)
-		case "/rock", "камень":
-			reply := "Подходим к камню. Разворачиваемся на 180. Копаем 2 ямы и встаем между ними. Фармим !!!Важно!!! Вся эта половая жизнь нужна для того, чтобы вас не отбрасывало от камня. Т.к. чем дольше вы бьете камень, тем меньше лута вы с него получите. В игре есть ачивка, собрать с одного камня 8 выпавших кусков."
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
-			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg)
 		case "/art", "арт":
 			reply := "Пиксельарты и дизайн шмоточек по кроссенгу тут - @acpixelart"
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
-			msg.ReplyToMessageID = update.Message.MessageID
-			bot.Send(msg)
-		case "/tree", "дерево":
-			reply := "Можно ли пересадить дерево? Да, съешьте любой фрукт и выкопайте дерево (железной или лучше) лопатой. Как не срубать все дерево? Необходимо рубить каменным топором, а не железным."
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)

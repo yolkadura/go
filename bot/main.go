@@ -42,7 +42,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "can't connect to the proxy:", err)
 		os.Exit(1)
 	}
-
+prox("proxy.txt")
 	// настройки клиента
 	httpTransport := &http.Transport{}
 	httpTransport.Dial = dialer.Dial
@@ -182,4 +182,21 @@ func readToken(path string) string {
 	//перевод файла в строку
 	yourawesomekey := string(file)
 	return yourawesomekey
+}
+func prox(path string){
+	//чтение файла
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		//return
+		fmt.Println("Error", err)
+	}
+	//перевод файла в строку
+	prox_param := string(file)
+	fmt.Println(prox_param)
+
+// 	//логпассы сокса
+// 	auth := proxy.Auth{
+// 		User:     user,
+// 		Password: pass,
+// 	}
 }
